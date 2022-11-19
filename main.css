@@ -1,0 +1,102 @@
+body {
+    background-color: rgb(205, 233, 233);
+}
+
+.blur .container {
+    filter: blur(3px);
+}
+
+.navbar {
+    background-color: #a9c2d3;
+    box-shadow: 0px 1px 5px black;
+    z-index: 5;
+}
+
+.header {
+    max-width: 1310px;
+}
+
+.header__logo {
+    width: 40px;
+    border-radius: 50%;    
+}
+
+.navbar-brand{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.cards {
+    margin-top: 20px;
+    min-height: 83vh;    
+}
+
+.card {
+    box-shadow: 0px 0px 5px black;
+}
+
+.card-img-top {    
+    max-height: 230px;
+    object-fit: cover;
+}
+
+.footer {
+    height: 70px;
+    margin-top: 20px;
+    background-color: #a9c2d3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px -1px 5px black;    
+}
+
+.footer-wr {
+    max-width: 1310px;
+    margin-left: 60px;
+}
+.modal-wr {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;    
+}
+
+.custom-modal {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.form_button {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hidden {
+    display: none;
+}
+
+.container_popup {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 9;
+    background: rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.popup_hidden {
+    display: none;
+}

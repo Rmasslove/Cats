@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Cats</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+<body>
+  <!--Шапка страницы с кнопкой добавить-->
+    <nav class="navbar sticky-top navbar-light">
+        <div class="container-fluid header">
+          <a class="navbar-brand" href="#">Cats
+            <img class="header__logo" src='https://i.pinimg.com/236x/87/9f/10/879f10b6aef3623797fc287e38ebae66.jpg'>
+          </a>
+          <button data-action="add" class="btn btn-success">Добавить</button>
+        </div>
+      </nav>
+  <!--Секция с карточками-->
+    <div class="container cards">        
+        <div data-wr class="row row-cols-1 row-cols-md-3 g-4">
+        </div>
+    </div>
+  <!--Секция footer-->
+    <footer class="footer">
+      <div class="footer-wr">
+        <h3>NSK 2022</h3>
+      </div>      
+    </footer>
+  <!--Раздел с popup-->
+  <div data-popup_wr class="container_popup popup_hidden">
+    <div data-popup class="custom-popup">     
+    </div>
+  </div>
+  <!--Раздел с модальным окном-->
+    <div data-models_wr class="modal-wr hidden">
+      <div data-model_custom class="custom-modal">
+        <form name="add_cat">
+          <div class="mb-3">          
+            <input
+            placeholder="id"
+            required
+            name="id" 
+            type="number" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">          
+          </div>
+          <div class="mb-3">
+            <input
+            placeholder="Имя"
+            required
+            name="name" 
+            type="text" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <input
+            placeholder="Возраст"
+            name="age" 
+            type="number" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>        
+          <div class="mb-3">
+            <input
+            placeholder="Рейтинг"
+            name="rate" 
+            type="number" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <input
+            placeholder="Описание"
+            name="description" 
+            type="text" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3 form-check">
+            <input name="favourite" type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Любимец</label>
+          </div>
+          <div class="mb-3">
+            <input
+            placeholder="URL"
+            name="img_link" 
+            type="text" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>
+          <div class="form_button">
+            <button data-action="add" type="submit" class="btn btn-success">Добавить</button>
+            <button data-action="cancel" type="button" class="btn btn-primary">Отмена</button>            
+          </div>        
+        </form>
+      </div>      
+    </div>
+  <!--Скрипты-->    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
