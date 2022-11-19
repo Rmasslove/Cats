@@ -13,7 +13,7 @@ const $cancelModalBtn = document.querySelector('[data-action="cancel"]') //Эл�
 //*********** Начало - Раздел Касса с API **********
 
 const CONFIG_API = { //Не изменяемые значения API
-    url: "http://sb-cats.herokuapp.com/api/2/rmasslove", //URL для взаимодействия с сервером
+    url: "https://sb-cats.herokuapp.com/api/2/rmasslove", //URL для взаимодействия с сервером
     headers: { //Заголовки
         "Content-type": "application/json",
     },
