@@ -35,9 +35,9 @@ class Api {  //Класс с методами работы API
         }                  
     }
 
-    getAllCatsIds() {  //(Незадействован) получить массив всех существующих id 
+    /*getAllCatsIds() {  //(Незадействован) получить массив всех существующих id 
         fetch(`${this.url}/ids`); //Запрос на сервер
-    }
+    }*/
 
     async getCatById(id) {  //получить информацию об одном котике по id 
         try {
@@ -63,13 +63,13 @@ class Api {  //Класс с методами работы API
         }
     }
 
-    updateCat(id, updateCat) {  //(Незадействован) изменить информацию о коте (запрещено менять id и name) 
+    /*updateCat(id, updateCat) {  //(Незадействован) изменить информацию о коте (запрещено менять id и name) 
         fetch(`${this.url}/update/${id}`, {  //Отправка данных на сервер
             method: "PUT",  //Метод
             headers: this.headers,  //Заголовок
             body: JSON.stringify(updateCat),  //Преобразование данных для отправки через json()
         });
-    }
+    }*/
 
     async deleteCat(id) {  //удалить кота
         try {
