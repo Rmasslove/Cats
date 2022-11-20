@@ -7,6 +7,8 @@ const $popupWr = document.querySelector('[data-popup_wr]') //Элемент в H
 const $openModalBtn = document.querySelector('[data-action="add"]') //Элемент в HTML кнопка для добавления карточки
 const $modalsWr = document.querySelector('[data-models_wr]') //Элемент в HTML раздел с модальным окном (Form)
 const $cancelModalBtn = document.querySelector('[data-action="cancel"]') //Элемент в НТМL с модальным окном (Form) кнопка (Отмена)
+const $modalUpdateWr = document.querySelector('[data-modalupdate_wr]')  //Элемент в HTML раздел с модальным окном (FormShow)
+
 
 //*********** Конец - Раздел элементы в HTML **********
 
@@ -53,9 +55,9 @@ class Api {  //Класс с методами работы API
     async createCat(data) {  //добавить нового кота (id, name - обязательно!)
         try {
             const responseData = await fetch(`${this.url}/add`, { //Отправка данных на сервер
-            method: "POST", //Метод
-            headers: this.headers,  //Заголовок
-            body: JSON.stringify(data), //Преобразование данных для отправки через json() 
+                method: "POST", //Метод
+                headers: this.headers,  //Заголовок
+                body: JSON.stringify(data), //Преобразование данных для отправки через json() 
             })
 
         }   catch (error) { //Отлов ошибки
@@ -63,13 +65,18 @@ class Api {  //Класс с методами работы API
         }
     }
 
-    /*updateCat(id, updateCat) {  //(Незадействован) изменить информацию о коте (запрещено менять id и name) 
-        fetch(`${this.url}/update/${id}`, {  //Отправка данных на сервер
-            method: "PUT",  //Метод
-            headers: this.headers,  //Заголовок
-            body: JSON.stringify(updateCat),  //Преобразование данных для отправки через json()
-        });
-    }*/
+    async updateCat(id, dataUpdate) {  //Изменить информацию о коте (запрещено менять id и name) 
+        try {
+            const responseData = await fetch(`${this.url}/update/${id}`, { //Отправка данных на сервер
+                method: "PUT",  //Метод
+                headers: this.headers,  //Заголовок
+                body: JSON.stringify(dataUpdate),  //Преобразование данных для отправки через json()
+            })
+
+        }   catch (error) { //Отлов ошибки
+            throw new Error(error)
+        }        
+    }
 
     async deleteCat(id) {  //удалить кота
         try {
@@ -89,11 +96,13 @@ const api = new Api(CONFIG_API); //Создание экземпляра кла�
 
 //*********** Начало - Раздел с шаблонами для карточек **********
 
+const urlDefault = "https://bipbap.ru/wp-content/uploads/2020/11/raskraski-kotikov-92-min.jpg" //Картинка кота по умолчанию
+
 const generateOllCardsHTML = (post) => {  //Создание всех карточек по шаблону
     return `
     <div class="col" data-card_id=${post.id}>
         <div class="card" style="background-color: #a9c2d3;">
-            <img src="${post.img_link}" class="card-img-top" alt="${post.name}">
+            <img src="${post.img_link || urlDefault}" class="card-img-top" alt="${post.name}">
             <div class="card-body">
                 <h5 class="card-title">${post.name}</h5>                
                 <p class="card-text">${post.favourite}</p>                              
@@ -107,7 +116,7 @@ const generateCardHTML = (post) => {  //Создание одной карточ
     return `
     <div class="col_popup" data-popup_id=${post.id}>
         <div class="card" style="background-color: #a9c2d3;">
-            <img src="${post.img_link}" class="card-img-top" alt="${post.name}">
+            <img src="${post.img_link || urlDefault}" class="card-img-top" alt="${post.name}">
             <div class="card-body">
                 <h5 class="card-title">${post.name}</h5>
                 <p class="card-text">${post.description}</p>
@@ -121,6 +130,69 @@ const generateCardHTML = (post) => {  //Создание одной карточ
         </div>
     </div>
     `
+}
+
+const generateFormShowHTML = (post) => {
+    return `
+    <div data-modal_update class="update-modal">
+        <form name="update_cat">
+          <div class="mb-3">          
+            <p name="id">id - ${post.id}</p>          
+          </div>
+          <div class="mb-3">
+            <h3 name="name">${post.name}</h3>
+          </div>
+          <div class="mb-3">
+            <input
+            placeholder="Возраст"
+            name="age"
+            value="${post.age}"
+            type="number" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>        
+          <div class="mb-3">
+            <input
+            placeholder="Рейтинг"
+            name="rate"
+            value="${post.rate}" 
+            type="number" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <input
+            placeholder="Описание"
+            name="description"
+            value="${post.description}" 
+            type="text" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3 form-check">
+            <input name="favourite" type="checkbox" class="form-check-input" id="exampleCheck2">
+            <label class="form-check-label" for="exampleCheck2">Любимец (${post.favourite})</label>
+          </div>
+          <div class="mb-3">
+            <input
+            placeholder="URL"
+            name="img_link"
+            value="${post.img_link}" 
+            type="text" 
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp">
+          </div>
+          <div class="form_button">
+            <button data-action_update="add" type="submit" class="btn btn-success">Добавить</button>
+            <button data-action_update="cancel" type="button" class="btn btn-primary">Отмена</button>            
+          </div>        
+        </form>
+      </div>
+      `
 }
 
 //*********** Конец - Раздел с шаблонами для карточек **********
@@ -168,9 +240,7 @@ $wr.addEventListener("click", (Event) => { //Событие клика по ка
         const objCatById = responseDataJson.data //Сохраняем объект с данными 1 карточки
         
         setCardLocalStorage('cardData', objCatById) //Вызов функции сохранение объекта с данными в LocalStorage
-        const objCardData = getCardLocalStorage('cardData') //Вызов функции получение объекта с данными карточки из LocalStorage
-        console.log('objCardData', objCardData) //Служебный вывод в консоль для отладки
-
+        
     }).catch((alert));
     $popup.addEventListener("click", clickPopupCard) //Добавление обработчика события на (Popup)
 })
@@ -222,10 +292,46 @@ const clickButtonDelete = ($popupEl) => { //Функция "Удаления" к
 }
 
 const clickButtonShow = ($popupEl) => { //Вызов функции редактирования карточки
-    console.log('clickButtonShow', $popupEl) //Служебный вывод в консоль для отладки
+    
+    $popupEl.remove() //Метод удаления карточки из (popup)
+    $popupWr.classList.add('popup_hidden')  //Добавление скрывающего класса (display: none;) для (popup) окна
+    $popup.removeEventListener("click", clickPopupCard) //Снятие обработчика события на (Popup)
+
+    const objCardData = getCardLocalStorage('cardData') //Вызов функции получение объекта с данными карточки из LocalStorage
+        
+    $modalUpdateWr.insertAdjacentHTML('beforeend', generateFormShowHTML(objCardData)) //Метод добавления формы с заполнением данных
+    $modalUpdateWr.classList.remove('modalupdate_hidden') //Удаление скрывающего класса (display: none;) для (FormUpdate) окна
+    const $modalUpdate = document.querySelector('[data-modal_update]') //Элемент в HTML окно (FormUpdate)
+    const $modalUpdateBtn = document.querySelector('[data-action_update="cancel"]') //Элемент в НТМL с модальным окном (FormShow) кнопка (Отмена)
+    document.forms.update_cat.addEventListener('submit', clickFormUpdate) //Добавление обработчика события на (FormUpdate)
+
+
+    $modalUpdateBtn.addEventListener('click', () => { //Клик по кнопке "Отмена" => закрытие модального окна (FormUpdate)
+        $modalUpdate.remove() //Метод удаления карточки из (FormUpdate)
+        $modalUpdateWr.classList.add('modalupdate_hidden')  //Добавление скрывающего класса (display: none;) для (FormUpdate) окна
+        document.body.classList.remove('blur') //Удаление класса для наложения 'blur'
+        $modalUpdateWr.removeEventListener('submit', clickFormUpdate) //Снятие обработчика события с (FormUpdate)
+    })
 }
 
 //*********** Конец - Раздел с (popup) окном (изменения и удаления) карточек **********
+
+//*********** Начало - Раздел с (FormUpdate) функция (редактирование) карточек **********
+
+const clickFormUpdate = (Event) => { //Событие клика по крточке (FormUpdate)
+    Event.preventDefault()  //Отмена действия для формы (FormUpdate) по умолчанию (отмена перезагрузки страницы)
+
+    const dataUpdate = Object.fromEntries(new FormData(document.forms.update_cat).entries()) //Получение всех данных из формы (FormUpdate) модального окна
+    
+    dataUpdate.favourite = dataUpdate.favourite == 'on' //Преобразования части данных из form name="update_cat"
+    console.log(dataUpdate)
+    
+    api.updateCat(catId, dataUpdate).then(() => { //Изменить информацию о коте       
+    location.reload () //Перезагрузка страницы браузера после обновления информации
+    }).catch(alert)      
+}
+
+//*********** Конец - Раздел с (FormUpdate) функция (редактирование) карточек **********
 
 //*********** Начало - Раздел с модальным окном "Добавление карточки" **********
 
@@ -233,9 +339,7 @@ const submitAddCatForm = (Event) => { //Событие клика по кноп�
     Event.preventDefault()  //Отмена действия для формы (Form) по умолчанию (отмена перезагрузки страницы)
 
     const data = Object.fromEntries(new FormData(Event.target).entries()) //Получение всех данных из формы (Form) модального окна
-
-    data.id = Number(data.id)  //Преобразования части данных из form name="add_cat"
-    data.rate = Number(data.rate) //Преобразования части данных из form name="add_cat"
+ 
     data.favourite = data.favourite == 'on' //Преобразования части данных из form name="add_cat"
 
     api.createCat(data).then(() => { //Добавить новую карточку в HTML
@@ -260,7 +364,11 @@ $openModalBtn.addEventListener('click', () => { //Клик по кнопке "Д
 
 //*********** Конец - Раздел с модальным окном "Добавление карточки" **********
 
-//*********** Начало - Раздел с добавлением данными 1 карточки в LocalStorage **********
+//*********** Начало - Раздел с добавлением данных в LocalStorage **********
+
+/*Т.к. в этом проекте LocalStorage толком некуда всунуть - добавляю туда данные всех
+карточек + данные по 1 карточке (popup) окна. В дальнейшем - получаю данные по 1 карточке
+и подставляю их в форму для редоктирования (FormUpdate) карточки.*/
 
 const setCardLocalStorage = (key, data) => { //Функция добавление в LocalStorage
     

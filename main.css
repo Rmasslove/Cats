@@ -37,6 +37,7 @@ body {
 
 .card-img-top {    
     max-height: 230px;
+    min-height: 250px;
     object-fit: cover;
 }
 
@@ -99,4 +100,29 @@ body {
 
 .popup_hidden {
     display: none;
+}
+
+.modalupdate-wr {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9; 
+}
+
+.modalupdate_hidden {
+    display: none;
+}
+
+.update-modal {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
 }
