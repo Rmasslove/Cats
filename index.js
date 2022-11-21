@@ -98,6 +98,8 @@ const api = new Api(CONFIG_API); //Создание экземпляра кла�
 
 const urlDefault = "https://bipbap.ru/wp-content/uploads/2020/11/raskraski-kotikov-92-min.jpg" //Картинка кота по умолчанию
 
+const checked = "checked" //Переменная значения "checked" в (checkbox) (FormUpdate) 
+
 const generateOllCardsHTML = (post) => {  //Создание всех карточек по шаблону
     return `
     <div class="col" data-card_id=${post.id}>
@@ -105,7 +107,7 @@ const generateOllCardsHTML = (post) => {  //Создание всех карто
             <img src="${post.img_link || urlDefault}" class="card-img-top" alt="${post.name}">
             <div class="card-body">
                 <h5 class="card-title">${post.name}</h5>                
-                <p class="card-text">${post.favourite}</p>                              
+                <p class="card-text favourite_${post.favourite}"><i class="fa-solid fa-heart"></i></p>                              
             </div>
         </div>
     </div>
@@ -119,10 +121,10 @@ const generateCardHTML = (post) => {  //Создание одной карточ
             <img src="${post.img_link || urlDefault}" class="card-img-top" alt="${post.name}">
             <div class="card-body">
                 <h5 class="card-title">${post.name}</h5>
+                <p class="card-text favourite_${post.favourite}"><i class="fa-solid fa-heart"></i></p>
                 <p class="card-text">${post.description}</p>
-                <p class="card-text">Возраст: ${post.age} (лет)</p>
-                <p class="card-text">${post.rate}</p>
-                <p class="card-text">${post.favourite}</p>
+                <p class="card-text">Возраст: ${post.age}</p>
+                <p class="card-text">Рейтинг: ${post.rate}</p>                
                 <button data-action="delete" class="btn btn-danger">Удалить</button>
                 <button data-action="show" class="btn btn-success">Изменить</button>
                 <button data-action="cancel" type="button" class="btn btn-primary">Отмена</button>
@@ -171,10 +173,10 @@ const generateFormShowHTML = (post) => {
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp">
-          </div>
+          </div>          
           <div class="mb-3 form-check">
-            <input name="favourite" type="checkbox" class="form-check-input" id="exampleCheck2">
-            <label class="form-check-label" for="exampleCheck2">Любимец (${post.favourite})</label>
+            <input name="favourite" type="checkbox" class="form-check-input" id="exampleCheck2" ${post.favourite && checked}>
+            <label class="form-check-label " for="exampleCheck2"><i class="fa-solid fa-heart favourite_${post.favourite}"></i> Любимец</label>
           </div>
           <div class="mb-3">
             <input

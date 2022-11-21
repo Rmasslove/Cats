@@ -126,3 +126,11 @@ body {
     padding: 2rem;
     border-radius: 8px;
 }
+
+.favourite_true {
+    color: red;
+}
+
+.favourite_false {
+    opacity: 0.1;
+}
