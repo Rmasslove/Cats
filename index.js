@@ -106,7 +106,7 @@ const urlDefault = "https://bipbap.ru/wp-content/uploads/2020/11/raskraski-kotik
 
 const checked = "checked" //Переменная со значением "checked" в (checkbox) (FormUpdate) 
 
-let resultUnicod = ""
+let resultUnicod = "" //Переменная для unicode значения
 
 const generateOllCardsHTML = (post) => {  //Создание всех карточек по шаблону
     return `
@@ -231,15 +231,15 @@ $wr.addEventListener("click", (Event) => { //Событие клика по ка
     
     api.getCatById(catId).then((responseDataJson) => {  //Добавить карточку (popup) в HTML
         
-        const rateResultUnicod = (rate) => {
-            const unicode = '&#9734'
-            resultUnicod =""
-            for (i = 0; i < rate; i++) {
-            resultUnicod = resultUnicod + unicode
+        const rateResultUnicod = (rate) => { //Функция для создания рейтинга из символов unicode
+            const unicode = '&#9734' //unicode символ
+            resultUnicod ="" //Обнуление значения
+            for (i = 0; i < rate; i++) { //Цикл равный рейтингу
+            resultUnicod = resultUnicod + unicode //Создание строки из символов unicode
             }
-            return resultUnicod
+            return resultUnicod //Итоговый результат
         }
-        rateResultUnicod(responseDataJson.data.rate)
+        rateResultUnicod(responseDataJson.data.rate) //Вызов функции с unicode
 
         $popup.insertAdjacentHTML('beforeend', generateCardHTML(responseDataJson.data)) //Метод добавления
         $popupWr.classList.remove('popup_hidden') //Удаление скрывающего класса (display: none;) для (popup) окна
