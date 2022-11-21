@@ -37,9 +37,15 @@ class Api {  //Класс с методами работы API
         }                  
     }
 
-    /*getAllCatsIds() {  //(Незадействован) получить массив всех существующих id 
-        fetch(`${this.url}/ids`); //Запрос на сервер
-    }*/
+    async getAllCatsIds() {  //(!) получить массив всех существующих id 
+        try {
+            const responseData = await fetch(`${this.url}/ids`); //Запрос на сервер      
+            return responseData.json() //Преобразованный json() ответ
+
+        }   catch (error) { //Отлов ошибки
+            throw new Error(error)
+        }        
+    }
 
     async getCatById(id) {  //получить информацию об одном котике по id 
         try {
@@ -98,7 +104,9 @@ const api = new Api(CONFIG_API); //Создание экземпляра кла�
 
 const urlDefault = "https://bipbap.ru/wp-content/uploads/2020/11/raskraski-kotikov-92-min.jpg" //Картинка кота по умолчанию
 
-const checked = "checked" //Переменная значения "checked" в (checkbox) (FormUpdate) 
+const checked = "checked" //Переменная со значением "checked" в (checkbox) (FormUpdate) 
+
+let resultUnicod = ""
 
 const generateOllCardsHTML = (post) => {  //Создание всех карточек по шаблону
     return `
@@ -124,7 +132,7 @@ const generateCardHTML = (post) => {  //Создание одной карточ
                 <p class="card-text favourite_${post.favourite}"><i class="fa-solid fa-heart"></i></p>
                 <p class="card-text">${post.description}</p>
                 <p class="card-text">Возраст: ${post.age}</p>
-                <p class="card-text">Рейтинг: ${post.rate}</p>                
+                <p class="card-text">Рейтинг: ${resultUnicod}</p>                
                 <button data-action="delete" class="btn btn-danger">Удалить</button>
                 <button data-action="show" class="btn btn-success">Изменить</button>
                 <button data-action="cancel" type="button" class="btn btn-primary">Отмена</button>
@@ -200,19 +208,6 @@ const generateFormShowHTML = (post) => {
 //*********** Конец - Раздел с шаблонами для карточек **********
 
 //api.getAllCatsIds();  //Получить id всех котов
-//api.getCatById(3); //Получить кота по id
-/*api.createCat({ //Создать кота
-    "id": 8,
-    "name": "Макс",
-    "rate": 0,
-    "age": 5,
-    "description": "Суровый",
-    "favourite": false,
-    "img_link": "https://img2.fonwall.ru/o/nn/kot-koshka-trava.jpg"
-});*/
-/*api.updateCat(10, { //Изменить кота
-    "age": 7,    
-});*/
 
 //*********** Начало - Раздел с функцией "Добавление всех карточек" **********
 
@@ -235,6 +230,17 @@ $wr.addEventListener("click", (Event) => { //Событие клика по ка
     catId = $cardWr.dataset.card_id  //Определение id карточки
     
     api.getCatById(catId).then((responseDataJson) => {  //Добавить карточку (popup) в HTML
+        
+        const rateResultUnicod = (rate) => {
+            const unicode = '&#9734'
+            resultUnicod =""
+            for (i = 0; i < rate; i++) {
+            resultUnicod = resultUnicod + unicode
+            }
+            return resultUnicod
+        }
+        rateResultUnicod(responseDataJson.data.rate)
+
         $popup.insertAdjacentHTML('beforeend', generateCardHTML(responseDataJson.data)) //Метод добавления
         $popupWr.classList.remove('popup_hidden') //Удаление скрывающего класса (display: none;) для (popup) окна
         document.body.classList.add('blur') //Добавление класса для наложения 'blur'
@@ -326,7 +332,6 @@ const clickFormUpdate = (Event) => { //Событие клика по крточ
     const dataUpdate = Object.fromEntries(new FormData(document.forms.update_cat).entries()) //Получение всех данных из формы (FormUpdate) модального окна
     
     dataUpdate.favourite = dataUpdate.favourite == 'on' //Преобразования части данных из form name="update_cat"
-    console.log(dataUpdate)
     
     api.updateCat(catId, dataUpdate).then(() => { //Изменить информацию о коте       
     location.reload () //Перезагрузка страницы браузера после обновления информации
